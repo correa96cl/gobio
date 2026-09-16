@@ -10,11 +10,9 @@ import (
 )
 
 func main() {
-
-	fmt.Print(godotenv.Load())
+	// Al ejecutar desde la raíz, el .env está en "./.env"
 	if err := godotenv.Load(); err != nil {
-		log.Fatal("Error loading .env file", err)
-		panic(err)
+		log.Println("Advertencia: No se pudo cargar .env, usando variables del sistema")
 	}
 
 	fmt.Println("DB PORT:", os.Getenv("GOBID_DATABASE_PORT"))
@@ -26,23 +24,21 @@ func main() {
 	cmd := exec.Command(
 		"tern",
 		"migrate",
-		"--migrations",
-		"./internal/store/pgstore/migrations",
-		"--config",
-		"./internal/store/pgstore/migrations/tern.conf",
+		"--migrations", "./internal/store/pgstore/migrations",
+		"--config", "./internal/store/pgstore/migrations/tern.conf",
 	)
+
+	// ¡CLAVE! Pasar las variables de entorno actuales al proceso tern
+	cmd.Env = os.Environ()
 
 	fmt.Println("Executing:", cmd.String())
 
-	fmt.Println("Running command:", cmd)
-
 	output, err := cmd.CombinedOutput()
 	if err != nil {
-		fmt.Print("Command failed:", err)
-		fmt.Print("Output:", string(output))
-		panic(err)
+		fmt.Println("Command failed:", err)
+		fmt.Println("Output:", string(output))
+		os.Exit(1) // Mejor usar os.Exit en lugar de panic
 	}
 
 	fmt.Println("Command succeeded:", string(output))
-
 }
