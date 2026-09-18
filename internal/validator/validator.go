@@ -46,3 +46,8 @@ func MinCharacters(value string, min int) bool {
 func Matches(value string, rx *regexp.Regexp) bool {
 	return rx.MatchString(value)
 }
+
+// validate email format
+func IsValidEmail(email string) bool {
+	return Matches(email, EmailRX)
+}

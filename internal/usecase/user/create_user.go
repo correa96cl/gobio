@@ -21,5 +21,6 @@ func (req CreateUserReq) Valid(ctx context.Context) validator.Evaluator {
 	eval.CheckField(validator.NotBlank(req.Bio), "bio", "bio is required")
 	eval.CheckField(validator.MinCharacters(req.Bio, 10) && validator.MaxCharacters(req.Bio, 255), "bio", "bio must be between 10 and 100 characters")
 	eval.CheckField(validator.MinCharacters(req.Password, 8), "password", "password must be at least 8 characters long")
+	eval.CheckField(validator.IsValidEmail(req.Email), "email", "email is not valid")
 	return eval
 }

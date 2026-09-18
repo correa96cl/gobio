@@ -11,7 +11,7 @@ import (
 
 func main() {
 	// Al ejecutar desde la raíz, el .env está en "./.env"
-	if err := godotenv.Load(); err != nil {
+	if err := godotenv.Load("./cmd/api/.env"); err != nil {
 		log.Println("Advertencia: No se pudo cargar .env, usando variables del sistema")
 	}
 
