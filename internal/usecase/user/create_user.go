@@ -3,7 +3,7 @@ package user
 import (
 	"context"
 
-	"github.com/rocketseat-eduaction/gobid/internal/validator"
+	"github.com/rocketseat-education/gobid/internal/validator"
 )
 
 type CreateUserReq struct {
