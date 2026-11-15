@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/rocketseat-eduaction/gobid/internal/jsonutils"
-	"github.com/rocketseat-eduaction/gobid/internal/services"
-	"github.com/rocketseat-eduaction/gobid/internal/usecase/user"
+	"github.com/rocketseat-education/gobid/internal/jsonutils"
+	"github.com/rocketseat-education/gobid/internal/services"
+	"github.com/rocketseat-education/gobid/internal/usecase/user"
 )
 
 func (api *Api) handleSignupUser(w http.ResponseWriter, r *http.Request) {

@@ -14,8 +14,8 @@ import (
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/joho/godotenv"
-	"github.com/rocketseat-eduaction/gobid/internal/api"
-	"github.com/rocketseat-eduaction/gobid/internal/services"
+	"github.com/rocketseat-education/gobid/internal/api"
+	"github.com/rocketseat-education/gobid/internal/services"
 )
 
 func main() {
@@ -23,8 +23,17 @@ func main() {
 	gob.Register(uuid.UUID{})
 
 	// 2. Cargar .env
-	if err := godotenv.Load(); err != nil {
-		panic(err)
+	// 2. Cargar .env de forma segura buscando en la raíz o subdirectorios
+	// Intentamos cargar desde la ruta actual o desde la raíz del proyecto un nivel arriba
+	err := godotenv.Load(".env")
+	if err != nil {
+		err = godotenv.Load("../.env")
+		if err != nil {
+			err = godotenv.Load("../../.env")
+			if err != nil {
+				panic(fmt.Errorf("error loading .env file: %w", err))
+			}
+		}
 	}
 
 	// 3. Crear pool
@@ -55,9 +64,10 @@ func main() {
 
 	// 5. API
 	api := api.Api{
-		Router:      chi.NewMux(),
-		UserService: services.NewUserService(pool),
-		Sessions:    s,
+		Router:         chi.NewMux(),
+		UserService:    services.NewUserService(pool),
+		ProductService: services.NewProductService(pool),
+		Sessions:       s,
 	}
 	api.BindRoutes()
 

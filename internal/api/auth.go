@@ -4,7 +4,7 @@ import (
 	"net/http"
 
 	"github.com/gorilla/csrf"
-	"github.com/rocketseat-eduaction/gobid/internal/jsonutils"
+	"github.com/rocketseat-education/gobid/internal/jsonutils"
 )
 
 func (api *Api) HandleGetCSRFToken(w http.ResponseWriter, r *http.Request) {
